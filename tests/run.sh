@@ -59,11 +59,26 @@ info "Plugin manifests"
 python3 -c "import json; json.load(open('.claude-plugin/plugin.json'))" \
   && pass "plugin.json parses" || fail "plugin.json invalid"
 python3 -c "import json; json.load(open('.claude-plugin/marketplace.json'))" \
-  && pass "marketplace.json parses" || fail "marketplace.json invalid"
+  && pass "Claude marketplace.json parses" || fail "Claude marketplace.json invalid"
+python3 -c "import json; json.load(open('.codex-plugin/plugin.json'))" \
+  && pass "Codex plugin.json parses" || fail "Codex plugin.json invalid"
+python3 -c "import json; json.load(open('.agents/plugins/marketplace.json'))" \
+  && pass "Codex marketplace.json parses" || fail "Codex marketplace.json invalid"
+python3 -c "import json; json.load(open('.mcp.json'))" \
+  && pass "Codex .mcp.json parses" || fail "Codex .mcp.json invalid"
 
 pv=$(python3 -c "import json; print(json.load(open('.claude-plugin/plugin.json'))['version'])")
+cv=$(python3 -c "import json; print(json.load(open('.codex-plugin/plugin.json'))['version'])")
 mv=$(python3 -c "import json; print(json.load(open('.claude-plugin/marketplace.json'))['plugins'][0]['version'])")
-[ "$pv" = "$mv" ] && pass "versions in sync ($pv)" || fail "versions diverge: plugin=$pv marketplace=$mv"
+[ "$pv" = "$cv" ] && [ "$pv" = "$mv" ] \
+  && pass "Codex and Claude versions in sync ($pv)" \
+  || fail "versions diverge: Claude=$pv Codex=$cv marketplace=$mv"
+
+if python3 -m unittest tests.test_build_adapters >/dev/null 2>&1; then
+  pass "Python contract tests pass"
+else
+  fail "Python contract tests fail"
+fi
 
 # --- Adapter generator runs cleanly ---
 info "Adapter generator"

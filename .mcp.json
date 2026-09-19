@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "moodle-mcp": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/SaadRahman01/moodle-mcp",
+        "moodle-mcp"
+      ]
+    }
+  }
+}

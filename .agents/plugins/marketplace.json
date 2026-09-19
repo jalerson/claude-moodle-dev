@@ -1,0 +1,21 @@
+{
+  "name": "moodle-dev",
+  "interface": {
+    "displayName": "Moodle Dev"
+  },
+  "plugins": [
+    {
+      "name": "moodle-dev",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/jalerson/claude-moodle-dev.git",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

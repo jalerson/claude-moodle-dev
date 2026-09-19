@@ -1,6 +1,6 @@
 # Contributing to moodle-dev
 
-Thanks for helping make this the best Moodle toolkit for Claude Code.
+Thanks for helping make this the best Moodle toolkit for Codex, Claude Code, and other coding assistants.
 
 ## Ways to contribute
 
@@ -13,7 +13,10 @@ Thanks for helping make this the best Moodle toolkit for Claude Code.
 ## Project layout
 
 ```
-.claude-plugin/         # plugin + marketplace manifests
+.codex-plugin/          # Codex plugin manifest
+.agents/plugins/        # Codex marketplace manifest
+.mcp.json               # Codex MCP server configuration
+.claude-plugin/         # Claude Code plugin + marketplace manifests
 skills/<name>/SKILL.md  # auto-activating expertise
 commands/<name>.md      # /<name> slash commands
 agents/<name>.md        # invocable subagents
@@ -88,7 +91,7 @@ System prompt for the agent.
 - [ ] Code samples are valid Moodle (no PHP syntax errors)
 - [ ] Links go to `moodledev.io` where possible
 - [ ] `CHANGELOG.md` updated under `## [Unreleased]`
-- [ ] `plugin.json` + `marketplace.json` version bumped if user-facing change
+- [ ] Codex and Claude plugin manifests remain valid and version-aligned
 - [ ] Lint workflow passes (JSON valid, frontmatter present)
 
 ## Versioning
@@ -98,7 +101,7 @@ Semver:
 - **minor** — new skill / command / agent, new section
 - **major** — breaking rename / removal
 
-Bump in three places: `plugin.json`, `marketplace.json` (`plugins[].version`), `CHANGELOG.md`.
+Bump the version in `.codex-plugin/plugin.json`, `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json` (`plugins[].version`), and `CHANGELOG.md`.
 
 ## Testing locally
 
@@ -117,6 +120,16 @@ End-to-end check with Claude Code:
 ```
 
 Then prompt Claude with a Moodle task and confirm the right skill activates (`/skills` to list active skills).
+
+End-to-end check with Codex after the changes reach `main`:
+
+```bash
+codex plugin marketplace add jalerson/claude-moodle-dev
+codex plugin add moodle-dev@moodle-dev
+codex plugin list
+```
+
+Start a new Codex task and confirm the Moodle skills and `moodle-mcp` tools are available.
 
 ## Adding a new adapter
 

@@ -13,7 +13,7 @@ jobs:
 
       - name: Validate JSON manifests
         run: |
-          for f in .claude-plugin/plugin.json .claude-plugin/marketplace.json; do
+          for f in .codex-plugin/plugin.json .agents/plugins/marketplace.json .mcp.json .claude-plugin/plugin.json .claude-plugin/marketplace.json; do
             echo "Validating $f"
             python3 -c "import json,sys; json.load(open('$f'))"
           done
@@ -50,12 +50,13 @@ jobs:
       - name: Verify version sync
         run: |
           plugin_v=$(python3 -c "import json; print(json.load(open('.claude-plugin/plugin.json'))['version'])")
+          codex_v=$(python3 -c "import json; print(json.load(open('.codex-plugin/plugin.json'))['version'])")
           mp_v=$(python3 -c "import json; print(json.load(open('.claude-plugin/marketplace.json'))['plugins'][0]['version'])")
-          if [ "$plugin_v" != "$mp_v" ]; then
-            echo "::error::version mismatch: plugin.json=$plugin_v marketplace.json=$mp_v"
+          if [ "$plugin_v" != "$codex_v" ] || [ "$plugin_v" != "$mp_v" ]; then
+            echo "::error::version mismatch: Claude=$plugin_v Codex=$codex_v marketplace=$mp_v"
             exit 1
           fi
-          echo "Version $plugin_v in sync"
+          echo "Version $plugin_v in sync across Codex and Claude manifests"
 
       - name: Adapters in sync with prompts
         run: |

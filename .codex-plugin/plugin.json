@@ -1,0 +1,45 @@
+{
+  "name": "moodle-dev",
+  "version": "0.5.0",
+  "description": "Moodle development toolkit for scaffolding, reviewing, testing, securing, and upgrading plugins across Moodle 4.x and 5.x.",
+  "author": {
+    "name": "Saad Rahman",
+    "email": "saad.rahman010@gmail.com",
+    "url": "https://github.com/SaadRahman01"
+  },
+  "homepage": "https://github.com/SaadRahman01/claude-moodle-dev",
+  "repository": "https://github.com/SaadRahman01/claude-moodle-dev",
+  "license": "MIT",
+  "keywords": [
+    "moodle",
+    "moodle-plugin",
+    "php",
+    "lms",
+    "xmldb",
+    "phpunit",
+    "behat",
+    "security",
+    "privacy",
+    "accessibility"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Moodle Dev",
+    "shortDescription": "Build and review Moodle plugins",
+    "longDescription": "Develop Moodle plugins with guidance for scaffolding, XMLDB migrations, capabilities, web services, Hooks API, AMD JavaScript, PHPUnit, Behat, security, privacy, performance, accessibility, themes, mobile integration, and cross-version upgrades.",
+    "developerName": "Saad Rahman",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/SaadRahman01/claude-moodle-dev",
+    "defaultPrompt": [
+      "Scaffold a Moodle plugin from this feature brief.",
+      "Review this Moodle plugin for security and privacy issues.",
+      "Upgrade this Moodle plugin to the latest supported release."
+    ],
+    "brandColor": "#F98012"
+  }
+}

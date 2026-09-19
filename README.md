@@ -1,10 +1,11 @@
 # moodle-dev
 
 > The most complete Moodle development toolkit for AI coding assistants — skills, slash commands, and subagents that turn your assistant into a Moodle expert.
-> **Native plugin for [Claude Code](https://docs.anthropic.com/claude/docs/claude-code); ships with adapters for [Cursor](adapters/cursor/), [GitHub Copilot](adapters/copilot/), [Aider](adapters/aider/), [Continue](adapters/continue/), and a [paste-anywhere bundle](adapters/generic/PROMPTS.md).**
+> **Native plugin for [Codex](https://openai.com/codex/) and [Claude Code](https://docs.anthropic.com/claude/docs/claude-code); ships with adapters for [Cursor](adapters/cursor/), [GitHub Copilot](adapters/copilot/), [Aider](adapters/aider/), [Continue](adapters/continue/), and a [paste-anywhere bundle](adapters/generic/PROMPTS.md).**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-0.4.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.5.0-blue.svg)](CHANGELOG.md)
+[![Codex Plugin](https://img.shields.io/badge/Codex-Plugin-111827.svg)](https://openai.com/codex/)
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-Plugin-8A2BE2.svg)](https://docs.anthropic.com/claude/docs/claude-code)
 [![Cursor](https://img.shields.io/badge/Cursor-Rules-black.svg)](adapters/cursor/)
 [![Copilot](https://img.shields.io/badge/Copilot-Chatmodes-24292e.svg)](adapters/copilot/)
@@ -22,7 +23,7 @@ Scaffolds plugins, writes XMLDB upgrades, audits privacy/security, generates PHP
 
 ## Why this plugin
 
-Claude already knows PHP. It does **not** know:
+AI coding assistants already know PHP. They do **not** reliably know:
 - Moodle's frankenstyle conventions (`local_<name>`, `mod_<name>`, `block_<name>`, ...)
 - XMLDB editor workflow + `upgrade_plugin_savepoint` rules
 - Privacy API contracts (`null_provider` vs `request\plugin\provider`)
@@ -33,11 +34,20 @@ Claude already knows PHP. It does **not** know:
 - AMD/RequireJS + grunt build
 - Mobile app remote templates + `get_remote_addons`
 
-This plugin teaches Claude all of it. Auto-activates when Claude detects Moodle work.
+This plugin teaches your coding assistant all of it. Its skills activate automatically when the assistant detects Moodle work.
 
 ---
 
 ## Install
+
+### Codex (native plugin)
+
+```bash
+codex plugin marketplace add jalerson/claude-moodle-dev
+codex plugin add moodle-dev@moodle-dev
+```
+
+Verify with `codex plugin list`, then start a new Codex task so the installed skills, commands, agents, and MCP tools are loaded.
 
 ### Claude Code (native plugin)
 
@@ -51,7 +61,7 @@ This plugin teaches Claude all of it. Auto-activates when Claude detects Moodle 
 Local dev: `/plugin marketplace add /absolute/path/to/claude-moodle-dev`.
 Verify: `/plugin list`.
 
-### One-liner installer (any non-Claude assistant)
+### One-liner installer (other assistants)
 
 ```
 ./install.sh <cursor|copilot|aider|continue|generic> [--dest <path>]
@@ -90,7 +100,7 @@ Paste relevant sections from [`adapters/generic/PROMPTS.md`](adapters/generic/PR
 
 ## Companion MCP server: live Moodle docs
 
-[`moodle-mcp`](https://github.com/SaadRahman01/moodle-mcp) is a separate Model Context Protocol server that gives any MCP-capable client (Claude Desktop / Code, Cursor, Continue, Cline, Windsurf) live access to the canonical Moodle developer documentation. The skills here teach conventions; the MCP server provides authoritative lookups.
+[`moodle-mcp`](https://github.com/SaadRahman01/moodle-mcp) is a separate Model Context Protocol server that gives any MCP-capable client (Codex, Claude Desktop / Code, Cursor, Continue, Cline, Windsurf) live access to the canonical Moodle developer documentation. The skills here teach conventions; the MCP server provides authoritative lookups.
 
 ### What it adds
 
@@ -109,7 +119,7 @@ Plus MCP **resources** (`moodle://docs/apis/...`) and **prompts** (`moodle-plugi
 
 No API keys. Sitemap + disk cache + conditional GET. Pairs cleanly with this plugin.
 
-### Install (Claude Code)
+### Install (Codex and Claude Code)
 
 Auto-wired when installing this plugin via marketplace. Requires [`uv`](https://docs.astral.sh/uv/) on PATH:
 
@@ -117,7 +127,7 @@ Auto-wired when installing this plugin via marketplace. Requires [`uv`](https://
 brew install uv      # or: pip install uv
 ```
 
-The plugin's `mcpServers` entry runs `uvx --from git+https://github.com/SaadRahman01/moodle-mcp moodle-mcp` on demand — no manual `pipx install` needed.
+The plugin's MCP configuration runs `uvx --from git+https://github.com/SaadRahman01/moodle-mcp moodle-mcp` on demand — no manual `pipx install` needed.
 
 Manual install (any client):
 
@@ -228,8 +238,11 @@ See [EXAMPLES.md](EXAMPLES.md) for 30+ prompts covering scaffolding, upgrades, t
 ## Repository layout
 
 ```
+.codex-plugin/          # Codex plugin manifest
+.agents/plugins/        # Codex marketplace manifest
+.mcp.json               # Codex MCP server configuration
 .claude-plugin/         # Claude Code plugin manifest
-skills/                 # canonical skills (Claude reads these directly)
+skills/                 # canonical skills (Codex and Claude read these directly)
 agents/                 # canonical subagents
 commands/               # canonical slash commands
 
